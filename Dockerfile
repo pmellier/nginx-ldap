@@ -1,4 +1,5 @@
-FROM python:2
-RUN apt-get update && apt-get install libsasl2-dev libldap2-dev && pip install python-ldap
+FROM python:3
+RUN apt-get update && apt-get install -y libsasl2-dev libldap2-dev inotify-tools && pip install python-ldap
 COPY nginx-ldap-auth-daemon /
-CMD [ "/nginx-ldap-auth-daemon" ]
+COPY autoreload.sh /
+CMD [ "/autoreload.sh" ]

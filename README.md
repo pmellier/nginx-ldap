@@ -28,13 +28,11 @@ Docker image `sepa/nginx-ldap` available:
     container_name: nginx-ldap
     image: sepa/nginx-ldap
     volumes:
-      - /etc/pam_ldap.conf:/etc/pam_ldap.conf:ro
-    command:
-      - /nginx-ldap-auth-daemon
-      - --host=0.0.0.0
+      - /etc/nginx/pam_ldap.conf:/etc/nginx/pam_ldap.conf:ro
     mem_limit: 64m
     restart: always
 ```
+It provides a convenient auto-reload daemon based on inotify
 Or here is systemd example for Debian Jessie:
 ```bash
 cp nginx-ldap-auth.service /etc/systemd/system/
