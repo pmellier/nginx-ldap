@@ -109,10 +109,15 @@ def check_auth(user, passwd, allowusr, allowgr):
 class LDAPAuthHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         try:
+            allowusr = self.headers.get('X-Ldap-Allowed-Usr')
+            allowgr = self.headers.get('X-Ldap-Allowed-Grp')
             auth_header = self.headers.get('Authorization')
+            if allowusr == '_anybody':
+                self.send_response(200)
+                return
             if auth_header and auth_header.lower().startswith('basic '):
                 user, passwd = str(base64.b64decode(auth_header[6:]), 'utf-8').split(':', 1)
-                if check_auth(user, passwd, self.headers.get('X-Ldap-Allowed-Usr'), self.headers.get('X-Ldap-Allowed-Grp')):
+                if check_auth(user, passwd, allowusr, allowgr):
                     self.send_response(200)
                     return
             self.send_response(401)
