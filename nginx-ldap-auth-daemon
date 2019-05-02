@@ -29,6 +29,7 @@ class AuthHTTPServer(ThreadingMixIn, HTTPServer):
 #    pass
 # -----------------------------------------------------------------------------
 conf = {}
+return_path = '/2017/2017-03/2017-03-22/118109/4342137.1'
 
 
 def read_conf(fname):
