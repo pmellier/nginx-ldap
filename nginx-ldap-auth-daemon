@@ -109,11 +109,14 @@ def check_auth(user, passwd, allowusr, allowgr):
 
 class LDAPAuthHandler(BaseHTTPRequestHandler):
     def do_GET(self):
-        return_path = '/2017/2017-03/2017-03-22/118109/4342137.1'
+        my_epfl_data = {'/public':'/2017/2017-03/2017-03-22/118109/4342137.1', 'public':'2017/2017-03/2017-03-22/118109/4342137.1'}
         try:
             allowusr = self.headers.get('X-Ldap-Allowed-Usr')
             allowgr = self.headers.get('X-Ldap-Allowed-Grp')
+            document_uri = self.headers.get('X-Ldap-Document-Uri')
             auth_header = self.headers.get('Authorization')
+            return_path = my_epfl_data.get(document_uri, '/unknown')
+            print('Document uri : {uri}'.format(uri=document_uri))
             if allowusr == '_anybody':
                 self.send_response(200)
                 self.send_header('X-Return-Path', return_path)
