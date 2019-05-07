@@ -114,6 +114,7 @@ class LDAPAuthHandler(BaseHTTPRequestHandler):
         try:
             allowusr = self.headers.get('X-Ldap-Allowed-Usr')
             allowgr = self.headers.get('X-Ldap-Allowed-Grp')
+            document_uri = self.headers.get('X-Ldap-Document-Uri')
             auth_header = self.headers.get('Authorization')
             document_uri = self.headers.get('X-Ldap-Document-Uri')
             document_uri_alternate = self.path
@@ -131,7 +132,7 @@ class LDAPAuthHandler(BaseHTTPRequestHandler):
                     allowusr = ''
                     allowgr = ''
                 print(file_path, allowusr, allowgr)
-
+                
             if allowusr == '_anybody':
                 self.send_response(200)
                 if document_mode :
